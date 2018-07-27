@@ -5,6 +5,13 @@ class PhpPsInfo
     protected $login;
     protected $password;
 
+    const DEFAULT_PASSWORD = 'prestashop';
+    const DEFAULT_LOGIN = 'prestashop';
+
+    const TYPE_OK = true;
+    const TYPE_ERROR = false;
+    const TYPE_WARNING = null;
+
     protected $requirements = [
         'versions' => [
             'php' => '5.6',
@@ -16,7 +23,7 @@ class PhpPsInfo
             'fileinfo' => true,
             'gd' => true,
             'imagick' => false,
-            'intl' => false,
+            'intl' => true,
             'json' => true,
             'memcache' => false,
             'memcached' => false,
@@ -28,12 +35,12 @@ class PhpPsInfo
             'expose_php' => false,
             'file_uploads' => true,
             'max_input_vars' => 1000,
-            'memory_limit' => '64MB',
-            'post_max_size' => '16MB',
+            'memory_limit' => '64M',
+            'post_max_size' => '16M',
             'register_argc_argv' => false,
             'set_time_limit' => true,
             'short_open_tag' => false,
-            'upload_max_filesize' => '4MB',
+            'upload_max_filesize' => '4M',
         ],
         'directories' => [
             'cache_dir' => 'var/cache',
@@ -74,12 +81,12 @@ class PhpPsInfo
             'expose_php' => false,
             'file_uploads' => true,
             'max_input_vars' => 5000,
-            'memory_limit' => '256MB',
-            'post_max_size' => '128MB',
+            'memory_limit' => '256M',
+            'post_max_size' => '128M',
             'register_argc_argv' => false,
             'set_time_limit' => true,
             'short_open_tag' => false,
-            'upload_max_filesize' => '128MB',
+            'upload_max_filesize' => '128M',
         ],
         'apache_modules' => [
             'mod_rewrite' => true,
@@ -96,7 +103,7 @@ class PhpPsInfo
      * @param string $password Password
      *
      */
-    public function __construct($login = null, $password = null)
+    public function __construct($login = self::DEFAULT_LOGIN, $password = self::DEFAULT_PASSWORD)
     {
         if (!empty($_SERVER['PS_INFO_LOGIN'])) {
             $this->login = $_SERVER['PS_INFO_LOGIN'];
@@ -122,7 +129,7 @@ class PhpPsInfo
         }
 
         if (!isset($_SERVER['PHP_AUTH_USER']) ||
-            $_SERVER['PHP_AUTH_PWD'] != $this->password ||
+            $_SERVER['PHP_AUTH_PW'] != $this->password ||
             $_SERVER['PHP_AUTH_USER'] != $this->login
         ) {
             header('WWW-Authenticate: Basic realm="Authentification"');
@@ -152,7 +159,12 @@ class PhpPsInfo
             $this->requirements['versions']['php'],
             $this->recommended['versions']['php'],
             PHP_VERSION,
-            version_compare(PHP_VERSION, $this->requirements['versions']['php'], '>=')
+            version_compare(PHP_VERSION, $this->recommended['versions']['php'], '>=') ?
+            self::TYPE_OK : (
+                version_compare(PHP_VERSION, $this->requirements['versions']['php'], '>=') ?
+                self::TYPE_WARNING :
+                self::TYPE_ERROR
+            )
         ];
 
         if (!extension_loaded('mysqli') || !is_callable('mysqli_connect')) {
@@ -160,14 +172,14 @@ class PhpPsInfo
                 true,
                 true,
                 'Not installed',
-                false,
+                self::TYPE_ERROR,
             ];
         } else {
             $data['MySQLi Extension'] = [
                 $this->requirements['versions']['mysql'],
                 $this->recommended['versions']['mysql'],
                 mysqli_get_client_info(),
-                true,
+                self::TYPE_OK,
             ];
         }
 
@@ -257,11 +269,19 @@ class PhpPsInfo
         ];
         foreach ($vars as $var) {
             $value = ini_get($var);
+            if ($this->toBytes($value) >= $this->toBytes($this->recommended['config'][$var])) {
+                $result = self::TYPE_OK;
+            } elseif ($this->toBytes($value) >= $this->toBytes($this->requirements['config'][$var])) {
+                $result = self::TYPE_WARNING;
+            } else {
+                $result = self::TYPE_ERROR;
+            }
+
             $data[$var] = [
                 $this->requirements['config'][$var],
                 $this->recommended['config'][$var],
                 $value,
-                $this->toBytes($value) >= $this->toBytes($this->requirements['config'][$var]),
+                $result,
             ];
         }
 
@@ -380,15 +400,24 @@ class PhpPsInfo
 
         if (count($data) === 1 && is_bool($data[0])) {
             $result = $data[0];
+        } elseif (array_key_exists(3, $data)) {
+            $result = $data[3];
         } else {
-            $result = isset($data[3]) ?
-                    $data[3] :
-                    $data[2] >= $data[1] ||
-                    $data[2] >= $data[1];
+            if ($data[2] >= $data[1]) {
+                $result = self::TYPE_OK;
+            } elseif ($data[2] >= $data[0]) {
+                $result = self::TYPE_WARNING;
+            } else {
+                $result = self::TYPE_ERROR;
+            }
         }
 
-        if (!$result) {
+        if ($result === false) {
             return 'table-danger';
+        }
+
+        if ($result === null) {
+            return 'table-warning';
         }
 
         return 'table-success';
@@ -613,7 +642,7 @@ $info->checkAuth();
         </div>
 
         <footer class="footer-copyright text-center py-3">
-            © 2018 Copyright: <a href="https://prestashop.com/">PrestaShop</a>
+            © <?php echo date('Y') ?> Copyright: <a href="https://prestashop.com/">PrestaShop</a>
         </footer>
     </body>
 </html>
