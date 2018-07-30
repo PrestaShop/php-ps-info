@@ -8,7 +8,7 @@ The default credentials for display the result are :
 * Login : prestashop
 * Password : prestashop
 
-Youou can set server env vars to override informations:
+You can set server env vars to override informations:
 
 * `PS_INFO_LOGIN`
 * `PS_INFO_PASSWORD`
