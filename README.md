@@ -1,14 +1,15 @@
 # PhpPsInfo
 
-phppsinfo provides a way to reports PrestaShop Requirements information about the PHP/MySQL/Apache environment, and offers suggestions for improvement. 
+phppsinfo is a PHP script that allows you to test if your current environment fullfills PrestaShop's requirements, and offers suggestions for improvements.
 
-This script allow you to quickly test your environement, where you want to install PrestaShop.
-The default credentials for display the result are :
+This script allows you to quickly test the environement where you want to install PrestaShop.
 
-* Login : prestashop
-* Password : prestashop
+The default credentials for displaying the results are:
 
-You can set server env vars to override informations:
+* Login: prestashop
+* Password: prestashop
+
+You can set server env vars to override them:
 
 * `PS_INFO_LOGIN`
 * `PS_INFO_PASSWORD`
