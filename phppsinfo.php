@@ -26,10 +26,12 @@ class PhpPsInfo
             'intl' => true,
             'json' => true,
             'openssl' => true,
+            'mbstring' => true,
             'memcache' => false,
             'memcached' => false,
             'pdo_mysql' => true,
             'zip' => true,
+            'bcmath' => false,
         ],
         'config' => [
             'allow_url_fopen' => true,
@@ -74,10 +76,12 @@ class PhpPsInfo
             'intl' => true,
             'json' => true,
             'openssl' => true,
+            'mbstring' => true,
             'memcache' => false,
             'memcached' => true,
             'pdo_mysql' => true,
             'zip' => true,
+            'bcmath' => true,
         ],
         'config' => [
             'allow_url_fopen' => true,
@@ -205,16 +209,18 @@ class PhpPsInfo
     {
         $data = [];
         $vars = [
-            'Curl' => 'curl',
-            'Gd' => 'gd',
-            'Imagick' => 'imagick',
-            'Intl' => 'intl',
+            'BCMath Arbitrary Precision Mathematics' => 'bcmath',
+            'Client URL Library (Curl)' => 'curl',
+            'Image Processing and GD' => 'gd',
+            'Image Processing (ImageMagick)' => 'imagick',
+            'Internationalization Functions (Intl)' => 'intl',
             'Memcache' => 'memcache',
             'Memcached' => 'memcached',
+            'Multibyte String (Mbstring)' => 'mbstring',
             'OpenSSL' => 'openssl',
-            'Fileinfo' => 'fileinfo',
-            'Json' => 'json',
-            'Pdo MySQL' => 'pdo_mysql',
+            'File Information (Fileinfo)' => 'fileinfo',
+            'JavaScript Object Notation (Json)' => 'json',
+            'PDO and MySQL Functions' => 'pdo_mysql',
         ];
         foreach ($vars as $label => $var) {
             $value = extension_loaded($var);
@@ -513,7 +519,7 @@ $info->checkAuth();
         <div class="container-fluid">
             <div class="row justify-content-md-center">
                 <main role="main" class="col-8">
-                    <h1>General informations & tests PHP/MySQL Version</h1>
+                    <h1>General information & PHP/MySQL Version</h1>
                     <div class="table-responsive">
                         <table class="table table-striped table-sm text-center">
                             <thead>
