@@ -14,7 +14,7 @@ class PhpPsInfo
 
     protected $requirements = [
         'versions' => [
-            'php' => '5.6',
+            'php' => '7.1',
             'mysql' => '5.5',
         ],
         'extensions' => [
@@ -65,7 +65,7 @@ class PhpPsInfo
 
     protected $recommended = [
         'versions' => [
-            'php' => '7.1',
+            'php' => '7.3',
             'mysql' => '5.6',
         ],
         'extensions' => [
