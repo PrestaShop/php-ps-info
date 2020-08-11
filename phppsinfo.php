@@ -354,6 +354,8 @@ class PhpPsInfo
      * Convert PHP variable (G/M/K) to bytes
      * Source: http://php.net/manual/fr/function.ini-get.php
      *
+     * @param mixed $value
+     *
      * @return integer
      */
     public function toBytes($value)
