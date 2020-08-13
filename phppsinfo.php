@@ -354,17 +354,19 @@ class PhpPsInfo
      * Convert PHP variable (G/M/K) to bytes
      * Source: http://php.net/manual/fr/function.ini-get.php
      *
+     * @param mixed $value
+     *
      * @return integer
      */
-    public function toBytes($val)
+    public function toBytes($value)
     {
-        if (is_numeric($val)) {
-            return $val;
+        if (is_numeric($value)) {
+            return $value;
         }
 
-        $val = trim($val);
-        $val = (int) $val;
-        switch (strtolower($val[strlen($val)-1])) {
+        $value = trim($value);
+        $val = (int) $value;
+        switch (strtolower($value[strlen($value)-1])) {
             case 'g':
                 $val *= 1024;
                 // continue
