@@ -60,7 +60,7 @@ class PhpPsInfo
             'translations_sf2' => 'app/Resources/translations',
         ],
         'apache_modules' => [
-            'mod_rewrite' => true,
+            'mod_rewrite' => false,
         ],
     ];
 
