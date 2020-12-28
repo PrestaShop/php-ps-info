@@ -60,6 +60,9 @@ class PhpPsInfo
             'translations_sf2' => 'app/Resources/translations',
         ],
         'apache_modules' => [
+            'mod_alias' => false,
+            'mod_env' => false,
+            'mod_headers' => false,
             'mod_rewrite' => false,
         ],
     ];
@@ -100,6 +103,9 @@ class PhpPsInfo
             'upload_max_filesize' => '128M',
         ],
         'apache_modules' => [
+            'mod_alias' => false,
+            'mod_env' => true,
+            'mod_headers' => true,
             'mod_rewrite' => true,
         ],
     ];
