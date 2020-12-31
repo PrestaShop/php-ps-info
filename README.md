@@ -38,3 +38,12 @@ It tests:
 ## License
 
 This tool is released under the MIT License.
+
+## Troubleshooting
+
+Working with a CGI environement such as Apache + FPM, you have to add a custom Apache RewriteCond.
+
+```
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+```
