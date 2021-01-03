@@ -17,7 +17,7 @@ You can set server env vars to override them:
 * `PS_INFO_PASSWORD`
 
 
-It tests:
+Tests include the following:
 	
 * PHP & MySQL Version
 * Apache modules
