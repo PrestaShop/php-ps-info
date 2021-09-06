@@ -56,6 +56,7 @@ class PhpPsInfo
             'translations_dir' => 'translations',
             'customizable_products_dir' => 'upload',
             'virtual_products_dir' => 'download',
+            'override_dir' => 'override',
             'config_sf2_dir' => 'app/config',
             'translations_sf2' => 'app/Resources/translations',
         ],
