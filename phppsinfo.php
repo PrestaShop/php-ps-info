@@ -70,7 +70,7 @@ class PhpPsInfo
 
     protected $recommended = [
         'versions' => [
-            'php' => '7.3',
+            'php' => '7.4',
             'mysql' => '5.6',
         ],
         'extensions' => [
