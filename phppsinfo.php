@@ -70,8 +70,8 @@ class PhpPsInfo
 
     protected $recommended = [
         'versions' => [
-            'php' => '7.4',
-            'mysql' => '5.6',
+            'php' => '8.1',
+            'mysql' => '8.0',
         ],
         'extensions' => [
             'bcmath' => true,
