@@ -164,14 +164,14 @@ class PhpPsInfo
      */
     public function getVersions()
     {
-        $data = [
+       $data = [
             'Web server' => [$this->getWebServer()],
             'PHP Type' => [
                 strpos(PHP_SAPI, 'cgi') !== false ?
                 'CGI with Apache Worker or another webserver' :
-                'Apache Module (low performance)'
-            ],
-        ];
+                (strpos(PHP_SAPI, 'litespeed') !== false ? '<span style="color: green">Litespeed (Super performance)</span>' : 'Apache Module (low performance)')
+                ],
+            ];
 
         $data['PHP Version'] = [
             $this->requirements['versions']['php'],
