@@ -164,7 +164,7 @@ class PhpPsInfo
      */
     public function getVersions()
     {
-       $data = [
+        $data = [
             'Web server' => [$this->getWebServer()],
             'PHP Type' => [
                 strpos(PHP_SAPI, 'cgi') !== false ?
