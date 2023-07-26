@@ -169,7 +169,7 @@ class PhpPsInfo
             'PHP Type' => [
                 strpos(PHP_SAPI, 'cgi') !== false ?
                 'CGI with Apache Worker or another webserver' :
-                (strpos(PHP_SAPI, 'litespeed') !== false ? '<span style="color: green">Litespeed (Super performance)</span>' : 'Apache Module (low performance)')
+                (strpos(PHP_SAPI, 'litespeed') !== false ? 'Litespeed (Better performance)' : 'Apache Module (low performance)')
                 ],
             ];
 
