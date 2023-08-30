@@ -11,6 +11,11 @@ class PhpPsInfo
     const TYPE_OK = true;
     const TYPE_ERROR = false;
     const TYPE_WARNING = null;
+    
+    const TYPE_SUCCESS_CLASS = 'table-success';
+    const TYPE_ERROR_CLASS = 'table-danger';
+    const TYPE_INFO_CLASS = 'table-info';
+    const TYPE_WARNING_CLASS = 'table-warning';
 
     protected $requirements = [
         'versions' => [
@@ -333,7 +338,7 @@ class PhpPsInfo
         $data = [];
         foreach ($this->requirements['directories'] as $directory) {
             $directoryPath = getcwd() . DIRECTORY_SEPARATOR . trim($directory, '\\/');
-            $data[$directory] = [file_exists($directoryPath) && is_writable($directoryPath)];
+            $data[$directory] = file_exists($directoryPath) ? [is_writable($directoryPath)] : [null];
         }
 
         return $data;
@@ -419,7 +424,7 @@ class PhpPsInfo
     public function toHtmlClass(array $data)
     {
         if (count($data) === 1 && !is_bool($data[0])) {
-            return 'table-info';
+            return self::TYPE_INFO_CLASS;
         }
 
 
@@ -438,14 +443,14 @@ class PhpPsInfo
         }
 
         if ($result === false) {
-            return 'table-danger';
+            return self::TYPE_ERROR_CLASS;
         }
 
         if ($result === null) {
-            return 'table-warning';
+            return self::TYPE_WARNING_CLASS;
         }
 
-        return 'table-success';
+        return self::TYPE_SUCCESS_CLASS;
     }
 
     /**
@@ -629,7 +634,11 @@ $info->checkAuth();
                                 <?php foreach ($info->getDirectories() as $label => $data) : ?>
                                     <tr>
                                         <td class="text-left"><?php echo $label ?></td>
-                                        <td class="<?php echo $info->toHtmlClass($data); ?>"><?php echo $info->toString($data[0]) ?></td>
+                                        <?php if (null == $data[0]) : ?>
+                                            <td class="<?php echo PhpPsInfo::TYPE_ERROR_CLASS; ?>">Directory not exists</td>
+                                        <?php else : ?>
+                                            <td class="<?php echo $info->toHtmlClass($data); ?>"><?php echo $info->toString($data[0]) ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
