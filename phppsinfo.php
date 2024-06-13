@@ -174,9 +174,9 @@ class PhpPsInfo
             'PHP Type' => [
                 strpos(PHP_SAPI, 'cgi') !== false ?
                 'CGI with Apache Worker or another webserver' :
-                'Apache Module (low performance)'
-            ],
-        ];
+                (strpos(PHP_SAPI, 'litespeed') !== false ? 'Litespeed (Better performance)' : 'Apache Module (low performance)')
+                ],
+            ];
 
         $data['PHP Version'] = [
             $this->requirements['versions']['php'],
