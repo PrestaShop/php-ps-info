@@ -1,6 +1,6 @@
 # PhpPsInfo - PrestaShop system requirements checker
 
-![Screenshot](https://devdocs.prestashop.com/1.7/basics/installation/img/phppsinfo.jpg)
+![Screenshot](https://devdocs.prestashop-project.org/8/basics/installation/img/phppsinfo.png)
 
 PhpPsInfo is a PHP script that allows you to test if your current environment fullfills PrestaShop's requirements, and offers suggestions for improvements.
 
