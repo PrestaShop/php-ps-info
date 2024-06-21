@@ -116,6 +116,12 @@ class PhpPsInfo
         ],
     ];
 
+    protected $incompatibility = [
+		'versions' => [
+			'php' => '8.2',
+		]
+	];
+
     /**
      * Set up login and password with parameter or
      * you can set server env vars:
@@ -182,9 +188,11 @@ class PhpPsInfo
             $this->requirements['versions']['php'],
             $this->recommended['versions']['php'],
             PHP_VERSION,
-            version_compare(PHP_VERSION, $this->recommended['versions']['php'], '>=') ?
-            self::TYPE_OK : (
-                version_compare(PHP_VERSION, $this->requirements['versions']['php'], '>=') ?
+            version_compare(PHP_VERSION, $this->recommended['versions']['php'], '>=') &&
+            version_compare(PHP_VERSION, $this->incompatibility['versions']['php'], '<') ?
+                self::TYPE_OK : (
+            version_compare(PHP_VERSION, $this->requirements['versions']['php'], '>=') &&
+            version_compare(PHP_VERSION, $this->incompatibility['versions']['php'], '<') ?
                 self::TYPE_WARNING :
                 self::TYPE_ERROR
             )
